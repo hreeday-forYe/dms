@@ -217,6 +217,13 @@ class AdminController {
       return next(new ErrorHandler(error.message, 500));
     }
   });
+  static adminDashboard = asyncHandler(async(req,res,next) =>{
+    try {
+      
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500))
+    }
+  })
 }
 
 export default AdminController;

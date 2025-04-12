@@ -37,6 +37,7 @@ import {
   Clock,
   IndianRupeeIcon,
 } from "lucide-react";
+import { ScrollArea } from "../ui/scroll-area";
 
 const getStatusBadge = (status) => {
   const statusConfig = {
@@ -93,7 +94,9 @@ const AdminShipments = () => {
           </Button>
         </div>
       </CardHeader>
+
       <CardContent>
+        <ScrollArea className="h-screen">
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
@@ -200,6 +203,7 @@ const AdminShipments = () => {
             </Table>
           </div>
         )}
+      </ScrollArea>
       </CardContent>
     </Card>
   );

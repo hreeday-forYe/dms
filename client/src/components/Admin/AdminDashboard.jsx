@@ -9,11 +9,16 @@ import {
   Filter,
   Download,
   ChevronRight,
+  Building,
+  Store,
+  BuildingIcon,
+  Building2,
 } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
 import { useNavigate } from "react-router-dom";
-import { useGetAllOrdersAdminQuery } from "@/app/slices/adminApiSlice";
+import { useGetAllOrdersAdminQuery, useAllCustomersQuery } from "@/app/slices/adminApiSlice";
 import { Badge } from "../ui/badge";
+import { useGetAllSupplierQuery } from "@/app/slices/supplierApiSlice";
 
 function AdminDashboard() {
   const getStatusBadge = (status) => {
@@ -35,7 +40,16 @@ function AdminDashboard() {
   };
   const { data } = useGetAllOrdersAdminQuery();
   const orders = data?.orders || [];
+  const {data:distributorData} = useGetAllSupplierQuery()
+  const distributors = distributorData?.distributors || []
+  // const {data:retailerData} = useGetAl
+  const {data:customersData} = useAllCustomersQuery()
+  const totalRetailers = customersData?.users?.length;
   const navigator = useNavigate();
+  const totalTurnOver = orders.reduce(
+    (total, order) => total + order.totalPrice, 
+    0 // Initialize accumulator at 0
+  );
   return (
     <ScrollArea className="flex-1 h-[calc(100vh-1px)]  ">
       <div>
@@ -57,59 +71,42 @@ function AdminDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {[
               {
-                title: "Total Orders",
-                value: "2,451",
-                change: "+12.5%",
+                title: "Total Turnover",
+                value: `Rs.${totalTurnOver.toLocaleString(
+                  "en-IN"
+                )}`,
                 isPositive: true,
                 icon: Package,
                 color: "blue",
               },
               {
-                title: "Active Shipments",
-                value: "145",
+                title: "Total Orders",
+                value: orders?.length,
                 change: "+8.2%",
                 isPositive: true,
                 icon: Truck,
                 color: "green",
               },
               {
-                title: "Pending Deliveries",
-                value: "48",
+                title: "Total Suppliers",
+                value: distributors?.length,
                 change: "-2.4%",
                 isPositive: false,
-                icon: Clock,
+                icon: Building2,
                 color: "yellow",
               },
               {
-                title: "Customer Issues",
-                value: "5",
+                title: "Total Retailers",
+                value: totalRetailers,
                 change: "-18.3%",
                 isPositive: true,
-                icon: AlertCircle,
+                icon: Store,
                 color: "red",
               },
             ].map((stat, index) => (
               <div key={index} className="stat-card">
                 <div className="flex justify-between items-start mb-4">
-                  <div
-                    className={`p-2.5 rounded-xl bg-gradient-to-br from-${stat.color}-50 to-${stat.color}-100 ring-2 ring-${stat.color}-100 ring-offset-2`}
-                  >
-                    <stat.icon className={`h-6 w-6 text-${stat.color}-500`} />
-                  </div>
-                  <span
-                    className={`flex items-center text-sm font-medium px-2 py-1 rounded-lg ${
-                      stat.isPositive
-                        ? "text-green-700 bg-green-50"
-                        : "text-red-700 bg-red-50"
-                    }`}
-                  >
-                    {stat.change}
-                    {stat.isPositive ? (
-                      <ArrowUpRight className="h-4 w-4 ml-1" />
-                    ) : (
-                      <ArrowDownRight className="h-4 w-4 ml-1" />
-                    )}
-                  </span>
+                  <stat.icon className={`h-6 w-6 text-${stat.color}-500`} />
                 </div>
                 <h3 className="text-gray-600 text-sm font-medium mb-1">
                   {stat.title}

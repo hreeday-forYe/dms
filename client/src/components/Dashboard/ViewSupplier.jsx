@@ -35,7 +35,6 @@ const ViewSupplier = () => {
 
   const { data: distributorData, refetch: distributorRefetch } =
     useGetSuppliersQuery();
-  console.log(distributorData);
   const distributor = distributorData?.distributor;
 
   // No suppliers available state

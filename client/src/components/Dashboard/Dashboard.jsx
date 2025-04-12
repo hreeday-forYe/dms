@@ -241,7 +241,7 @@ const Dashboard = () => {
 const ProductCard = ({ product, handleAddToCart }) => {
   const nav = useNavigate();
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
+    <div className="bg-white rounded-lg cursor-pointer shadow-md overflow-hidden transition-transform duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative" onClick={() => nav(`./product/${product?._id}`)}>
         <img
           src={product.images[0]?.url || "/api/placeholder/400/320"}
