@@ -10,6 +10,6 @@ const AdminDashboardPage = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default AdminDashboardPage;

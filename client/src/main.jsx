@@ -12,12 +12,34 @@ import {
   SupplierList,
   AddSupplier,
   AddProduct,
+  EditSupplier,
+  ProductList,
+  EditProduct,
+  AdminDashboard,
+  PageNotFound,
+  Distributor,
+  Cart,
+  Checkout,
+  Request,
+  ShopOrders,
+  Shipments,
+  DistributorOrders,
+  AdminShipments,
+  ProductDetails,
+  AdminAllSupplier,
+  AdminProduct,
+  ViewSupplier,
+  TermsOfService,
+  PrivacyPolicy1,
+  Support,
 } from "./components";
 import { StrictMode } from "react";
 import AuthLayout from "./routes/AuthLayout";
 
-import { HomePage } from "./pages";
+import { DashboardPage, DistributorPage, HomePage } from "./pages";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminLayout from "./routes/AdminLayout";
+import Profile from "./components/Profile";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "*",
+        element: <PageNotFound />,
       },
 
       {
@@ -54,52 +80,196 @@ const router = createBrowserRouter([
           </AuthLayout>
         ),
       },
+      {
+        path: "/profile",
+        element: (
+          <AuthLayout authentication={true}>
+            <Profile />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/terms",
+        element: (
+          <AuthLayout authentication={false}>
+            <TermsOfService />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/privacy",
+        element: (
+          <AuthLayout authentication={false}>
+            <PrivacyPolicy1 />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/support",
+        element: (
+          <AuthLayout authentication={false}>
+            <Support />
+          </AuthLayout>
+        ),
+      },
 
-      // {
-      //   path: "/dashboard",
-      //   element: (
-      //     <AuthLayout authentication={true}>
-      //       <DashboardPage />
-      //     </AuthLayout>
-      //   ),
-      // },
-      // {
-      //   path: "/suppliers",
-      //   element: (
-      //     <AuthLayout authentication={true}>
-      //       <SupplierPage />
-      //     </AuthLayout>
-      //   ),
-      // },
-
+      //Admin
       {
         path: "/admin",
         element: <AdminDashboardPage />,
         children: [
           {
             index: true,
-            element: <Dashboard />,
+            element: (
+              <AdminLayout>
+                <AdminDashboard />
+              </AdminLayout>
+            ),
+          },
+          {
+            path: "inventories",
+            element: (
+              <AdminLayout>
+                <AdminProduct />
+              </AdminLayout>
+            ),
           },
           {
             path: "suppliers",
             element: (
-              // <AdminLayout>
-              <SupplierList />
-              // </AdminLayout>
+              <AdminLayout>
+                <SupplierList />
+              </AdminLayout>
             ),
           },
           {
             path: "add-supplier",
-            element: <AddSupplier />,
+            element: (
+              <AdminLayout>
+                <AddSupplier />
+              </AdminLayout>
+            ),
+          },
+          {
+            path: "customers",
+            element: (
+              <AdminLayout>
+                <AdminAllSupplier />
+              </AdminLayout>
+            ),
+          },
+          {
+            path: "edit-supplier/:id",
+            element: (
+              <AdminLayout>
+                <EditSupplier />
+              </AdminLayout>
+            ),
           },
           {
             path: "products",
             element: (
-            // <AdminLayout>
-            <AddProduct/>
-            // </AdminLayout>
-          ),
-          }, 
+              <AdminLayout>
+                <ProductList />
+              </AdminLayout>
+            ),
+          },
+          {
+            path: "add-product",
+            element: (
+              <AdminLayout>
+                <AddProduct />
+              </AdminLayout>
+            ),
+          },
+          {
+            path: "edit-product/:id",
+            element: (
+              <AdminLayout>
+                <EditProduct />
+              </AdminLayout>
+            ),
+          },
+          {
+            path: "request",
+            element: (
+              <AdminLayout>
+                <Request />
+              </AdminLayout>
+            ),
+          },
+          {
+            path: "shipments",
+            element: (
+              <AdminLayout>
+                <AdminShipments />
+              </AdminLayout>
+            ),
+          },
+        ],
+      },
+
+      // Distributor
+      {
+        path: "/distributor",
+        element: <DistributorPage />,
+        children: [
+          {
+            index: true,
+            element: <Distributor />,
+          },
+          {
+            path: "inventory",
+            element: <ProductList />,
+          },
+          {
+            path: "add-product",
+            element: <AddProduct />,
+          },
+          {
+            path: "edit-product/:id",
+            element: <EditProduct />,
+          },
+          {
+            path: "orders",
+            element: <DistributorOrders />,
+          },
+          {
+            path: "shipment",
+            element: <Shipments />,
+          },
+        ],
+      },
+
+      //Dashboard
+      {
+        path: "/dashboard",
+        element: <DashboardPage />,
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: "cart",
+            element: <Cart />,
+          },
+          {
+            path: "product/:id",
+            element: <ProductDetails />,
+          },
+          {
+            path: "checkout",
+            element: <Checkout />,
+          },
+          {
+            path: "orders",
+            element: <ShopOrders />,
+          },
+          {
+            path: "supplier",
+            element: <ViewSupplier />,
+          },
         ],
       },
     ],

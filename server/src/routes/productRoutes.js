@@ -7,32 +7,35 @@ const productRouter = express.Router();
 productRouter.post(
   "/",
   isAuthenticated,
-  authorizeRoles("admin"),
+  authorizeRoles("distributor"),
   ProductController.createProduct
 );
+
 productRouter.get(
-  "/",
+  "/distributor-products",
   isAuthenticated,
-  authorizeRoles("admin"),
-  ProductController.fetchAllProducts
+  authorizeRoles("shop", "distributor"),
+  ProductController.fetchDistributorProduct
 );
+
 productRouter.get(
   "/:id",
   isAuthenticated,
-  authorizeRoles("admin"),
+  authorizeRoles("distributor", "shop"),
   ProductController.fetchSingleProduct
 );
 productRouter.put(
   "/:id",
   isAuthenticated,
-  authorizeRoles("admin"),
+  authorizeRoles("distributor"),
   ProductController.updateProductDetails
 );
-productRouter.patch(
-  "/:id",
-  isAuthenticated,
-  authorizeRoles,
-  ProductController.updateProductStock
-);
+
+// productRouter.patch(
+//   "/:id",
+//   isAuthenticated,
+//   authorizeRoles("distributor"),
+//   ProductController.updateProductStock
+// );
 
 export default productRouter;

@@ -189,7 +189,7 @@ const Register = () => {
                 />
                 <Input
                   type="text"
-                  {...register("shop", {
+                  {...register("address", {
                     required: "Shop location is required",
                     pattern: {
                       value: /^[A-Za-z\s,]+$/, // Allows only letters, spaces, and commas
@@ -206,9 +206,9 @@ const Register = () => {
                   placeholder="Bagbazar, Kathmandu"
                 />
               </div>
-              {errors.shop && (
+              {errors.address && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.shop.message}
+                  {errors.address.message}
                 </p>
               )}
             </div>
